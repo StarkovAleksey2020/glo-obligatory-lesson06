@@ -6,9 +6,19 @@ let isNumber = function (n) {
 
 function game() {  
   let hiddenNumber = Math.ceil(Math.random() * 100);
+  console.log('hiddenNumber: ', hiddenNumber);
+  let numberOfAttempts = 10;
+  let guessedNumber;
   
   let guessingResult = function guessingNumbers() {  
-    let guessedNumber = +prompt('Угадай число от 1 до 100');
+    if (numberOfAttempts === 0) {
+      if (confirm('Попытки закончились, хотите сыграть еще?')) {
+        game();
+      }
+      return;
+    } else if (numberOfAttempts > 0){
+      guessedNumber = +prompt('Угадай число от 1 до 100');
+    }
     if (guessedNumber === 0) {
       return alert('Игра окончена');
     }
@@ -17,13 +27,18 @@ function game() {
       guessingNumbers();      
     }
     if (guessedNumber < hiddenNumber) {
-      alert('Загаданное число больше');
+      numberOfAttempts--;
+      alert('Загаданное число больше, осталось попыток ' + numberOfAttempts);
       guessingNumbers();      
     } else if (guessedNumber > hiddenNumber) {
-      alert('Загаданное число меньше');
+      numberOfAttempts--;
+      alert('Загаданное число меньше, осталось попыток ' + numberOfAttempts);
       guessingNumbers();
     } else if (guessedNumber === hiddenNumber) {
-      return alert('Поздравляю, Вы угадали!!!');
+      if (confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?')) {
+        game();
+      }
+      return;
     }
   }
   guessingResult();
